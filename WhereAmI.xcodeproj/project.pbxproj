@@ -10,6 +10,7 @@
 		D42843E215D432D00088CC91 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D42843E115D432D00088CC91 /* Foundation.framework */; };
 		D42843E515D432D10088CC91 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D42843E415D432D00088CC91 /* main.m */; };
 		D42843E915D432D10088CC91 /* WhereAmI.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D42843E815D432D10088CC91 /* WhereAmI.1 */; };
+		D430261C15D43AA4001E9462 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D430261B15D43AA3001E9462 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,7 @@
 		D42843E415D432D00088CC91 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D42843E715D432D10088CC91 /* WhereAmI-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WhereAmI-Prefix.pch"; sourceTree = "<group>"; };
 		D42843E815D432D10088CC91 /* WhereAmI.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = WhereAmI.1; sourceTree = "<group>"; };
+		D430261B15D43AA3001E9462 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D430261C15D43AA4001E9462 /* CoreLocation.framework in Frameworks */,
 				D42843E215D432D00088CC91 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,6 +68,7 @@
 		D42843E015D432D00088CC91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D430261B15D43AA3001E9462 /* CoreLocation.framework */,
 				D42843E115D432D00088CC91 /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -232,6 +236,7 @@
 				D42843EE15D432D10088CC91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
