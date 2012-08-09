@@ -13,6 +13,8 @@
 int main(int argc, const char * argv[])
 {
 
+    // Run loop code from https://gist.github.com/3220789
+    
     NSRunLoop *runLoop;
     LocationGetter *main; // replace with desired class
 
