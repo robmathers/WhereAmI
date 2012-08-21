@@ -6,3 +6,7 @@ Open with Finder to execute, or in the terminal. If it can determine a location,
 
 ## Notes
 This is a quick and dirty example. I make no guarantees or warranties as to its accuracy, stability or compatibility (it should work with 10.7 and 10.8, but I have only tested it on 10.7). Feel free to do with it as you wish.
+
+## Changelog
+### 1.01
+- WhereAmI will now check if Wi-Fi is not enabled and tell the user such if it can't get location data.
