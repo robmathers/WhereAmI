@@ -7,6 +7,7 @@
 //
 
 #import "LocationGetter.h"
+#import <CoreWLAN/CoreWLAN.h>
 
 @implementation LocationGetter
 
