@@ -23,7 +23,7 @@
 		D430261E15D43B96001E9462 /* LocationGetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationGetter.h; sourceTree = "<group>"; };
 		D430261F15D43B96001E9462 /* LocationGetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationGetter.m; sourceTree = "<group>"; };
 		D430262115D46660001E9462 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
-		D4F7F53A15E4346F00B0916A /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = ../../../../System/Library/Frameworks/CoreWLAN.framework; sourceTree = "<group>"; };
+		D4F7F53A15E4346F00B0916A /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = /System/Library/Frameworks/CoreWLAN.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,7 +43,6 @@
 		D42843D215D432D00088CC91 = {
 			isa = PBXGroup;
 			children = (
-				D4F7F53A15E4346F00B0916A /* CoreWLAN.framework */,
 				D42843E315D432D00088CC91 /* WhereAmI */,
 				D42843E015D432D00088CC91 /* Frameworks */,
 				D42843DE15D432D00088CC91 /* Products */,
@@ -62,6 +61,7 @@
 		D42843E015D432D00088CC91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D4F7F53A15E4346F00B0916A /* CoreWLAN.framework */,
 				D430261B15D43AA3001E9462 /* CoreLocation.framework */,
 				D42843E115D432D00088CC91 /* Foundation.framework */,
 			);

@@ -24,7 +24,7 @@
 -(void)printCurrentLocation {
     self.manager.desiredAccuracy = kCLLocationAccuracyBest;
     self.manager.distanceFilter = kCLDistanceFilterNone;
-    
+        
     if (![CLLocationManager locationServicesEnabled]) {
         IFPrint(@"Location services are not enabled, quitting.");
         self.exitCode = 1;
@@ -58,10 +58,18 @@
     self.shouldExit = 1;
 }
 
+-(BOOL)isWifiEnabled {
+    CWInterface *wifi = [CWInterface interface];
+    return wifi.powerOn;
+}
+
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     [self.manager stopUpdatingLocation];
     if ([error code] == kCLErrorLocationUnknown) {
-        IFPrint(@"Location could not be determined right now. Try again later. Check if Wi-Fi is enabled.");
+        if (![self isWifiEnabled])
+            IFPrint(@"Wi-Fi is not enabled. Please enable it to gather location data");
+        else
+            IFPrint(@"Location could not be determined right now. Try again later. Check if Wi-Fi is enabled.");
     }
     else if ([error code] == kCLErrorDenied) {
         IFPrint(@"Access to location services was denied. You may need to enable access in System Preferences.");
