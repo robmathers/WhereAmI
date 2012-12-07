@@ -1,5 +1,5 @@
 # WhereAmI
-A quick command line tool to get your geographic coordinates using the OS X [CoreLocation][]) framework.
+A quick command line tool to get your geographic coordinates using the OS X [CoreLocation][] framework.
 
 Download a zip with the latest version [here][download link].
 
