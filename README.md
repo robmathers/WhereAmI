@@ -12,6 +12,7 @@ This is a quick and dirty example. I make no guarantees or warranties as to its 
 ## Changelog
 ### 1.02
  - Fixed missing `@autoreleasepool`. Shouldn't be any practical changes, but it's good form.
+
 ### 1.01
 - WhereAmI will now check if Wi-Fi is not enabled and tell the user such if it can't get location data.
 
