@@ -1,0 +1,26 @@
+# OS X noise
+.DS_Store
+
+# TextMate noise
+*.tm_build_errors
+
+# Xcode noise, after https://github.com/github/gitignore/blob/master/Objective-C.gitignore
+build/*
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xcworkspace
+!default.xcworkspace
+xcuserdata
+profile
+*.moved-aside
+*~.nib
+
+# used to add version strings to *-Info.plist
+*/*-Info-plist.h
+
