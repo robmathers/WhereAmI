@@ -17,4 +17,4 @@ This is a quick and dirty example. I make no guarantees or warranties as to its 
 - WhereAmI will now check if Wi-Fi is not enabled and tell the user such if it can't get location data.
 
 [corelocation]: http://en.wikipedia.org/wiki/CoreLocation
-[download link]: https://github.com/downloads/robmathers/WhereAmI/whereami-1.02.zip
+[download link]: https://github.com/robmathers/WhereAmI/archive/master.zip
