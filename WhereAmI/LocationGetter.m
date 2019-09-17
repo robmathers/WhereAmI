@@ -9,6 +9,47 @@
 #import "LocationGetter.h"
 #import <CoreWLAN/CoreWLAN.h>
 
+/*
+ * Utils: Add this section before your class implementation
+ */
+
+/**
+ This creates a new query parameters string from the given NSDictionary. For
+ example, if the input is @{@"day":@"Tuesday", @"month":@"January"}, the output
+ string will be @"day=Tuesday&month=January".
+ @param queryParameters The input dictionary.
+ @return The created parameters string.
+ */
+static NSString* NSStringFromQueryParameters(NSDictionary* queryParameters)
+{
+    NSMutableArray* parts = [NSMutableArray array];
+    [queryParameters enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
+        NSString *part = [NSString stringWithFormat: @"%@=%@",
+                          [key stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding],
+                          [value stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]
+                          ];
+        [parts addObject:part];
+    }];
+    return [parts componentsJoinedByString: @"&"];
+}
+
+/**
+ Creates a new URL by adding the given query parameters.
+ @param URL The input URL.
+ @param queryParameters The query parameter dictionary to add.
+ @return A new NSURL.
+ */
+static NSURL* NSURLByAppendingQueryParameters(NSURL* URL, NSDictionary* queryParameters)
+{
+    NSString* URLString = [NSString stringWithFormat:@"%@?%@",
+                           [URL absoluteString],
+                           NSStringFromQueryParameters(queryParameters)
+                           ];
+    return [NSURL URLWithString:URLString];
+}
+
+
+
 @implementation LocationGetter
 
 -(id)init {
@@ -53,9 +94,9 @@
     IFPrint(@"Accuracy (m): %f", newLocation.horizontalAccuracy);
     IFPrint(@"Timestamp: %@", [NSDateFormatter localizedStringFromDate:newLocation.timestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]);
     
+    [self sendGeoCodeRequestWithLatitude:newLocation.coordinate.latitude andLongitude:newLocation.coordinate.longitude];
+    
     [self.manager stopUpdatingLocation];
-    self.exitCode = 0;
-    self.shouldExit = 1;
 }
 
 -(BOOL)isWifiEnabled {
@@ -80,6 +121,73 @@
        
     self.exitCode = 1;
     self.shouldExit = 1;
+}
+
+- (void)sendGeoCodeRequestWithLatitude:(CLLocationDegrees)latitude andLongitude:(CLLocationDegrees)longitude {
+    /* Configure session, choose between:
+     * defaultSessionConfiguration
+     * ephemeralSessionConfiguration
+     * backgroundSessionConfigurationWithIdentifier:
+     And set session-wide properties, such as: HTTPAdditionalHeaders,
+     HTTPCookieAcceptPolicy, requestCachePolicy or timeoutIntervalForRequest.
+     */
+    NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    /* Create session, and optionally set a NSURLSessionDelegate. */
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:nil delegateQueue:nil];
+    
+    /* Create the Request:
+     Atlantic (GET https://api.opencagedata.com/geocode/v1/json)
+     */
+    
+    NSString* apiKey = [self openCageApiKey];
+    if (!apiKey) {
+        self.exitCode = 1;
+        self.shouldExit = 1;
+        return;
+    }
+    
+    NSURL* URL = [NSURL URLWithString:@"https://api.opencagedata.com/geocode/v1/json"];
+    NSDictionary* URLParams = @{
+                                @"key": apiKey,
+                                @"q": [NSString stringWithFormat:@"%f,%f", latitude, longitude],
+                                };
+    URL = NSURLByAppendingQueryParameters(URL, URLParams);
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:URL];
+    request.HTTPMethod = @"GET";
+    
+    /* Start a new Task */
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error == nil) {
+            // Success
+            NSLog(@"URL Session Task Succeeded: HTTP %ld", ((NSHTTPURLResponse*)response).statusCode);
+            NSLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            self.exitCode = 0;
+            self.shouldExit = 1;
+
+        }
+        else {
+            // Failure
+            NSLog(@"URL Session Task Failed: %@", [error localizedDescription]);
+            self.exitCode = 1;
+            self.shouldExit = 1;
+        }
+    }];
+    [task resume];
+    [session finishTasksAndInvalidate];
+}
+
+- (nullable NSString *)openCageApiKey {
+    NSArray<NSString *>* arguments = NSProcessInfo.processInfo.arguments;
+    
+    NSUInteger apiKeyFlagIndex = [arguments indexOfObject: @"-k"];
+    if (arguments.count > apiKeyFlagIndex + 1) {
+        NSString* apiKey = arguments[apiKeyFlagIndex + 1];
+        if (apiKey.length > 0) {
+            return apiKey;
+        }
+    }
+    return nil;
 }
 
 // NSLog replacement from http://stackoverflow.com/a/3487392/1376063
