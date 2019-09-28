@@ -59,36 +59,41 @@ void IFPrint (NSString *format, ...) {
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     NSTimeInterval ageInSeconds = -[newLocation.timestamp timeIntervalSinceNow];
     if (ageInSeconds > 60.0) return;   // Ignore data more than a minute old
-    
+    [self.manager stopUpdatingLocation];
+
     IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
     IFPrint(@"Longitude: %f", newLocation.coordinate.longitude);
     IFPrint(@"Accuracy (m): %f", newLocation.horizontalAccuracy);
     IFPrint(@"Timestamp: %@", [NSDateFormatter localizedStringFromDate:newLocation.timestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]);
     
-    NSString* apiKey = [self openCageApiKey];
-    if (!apiKey) {
-        self.exitCode = 1;
-        self.shouldExit = 1;
-        [self.manager stopUpdatingLocation];
-        return;
-    }
-    
-    OpenCageAPI *api = [[OpenCageAPI alloc] initWithApiKey:apiKey];
-
-    [api sendGeoCodeRequestWithLatitude:newLocation.coordinate.latitude andLongitude:newLocation.coordinate.longitude completionHandler:^(NSString * _Nullable response, NSError * _Nullable error) {
-        if (response) {
-            IFPrint(response);
-            self.exitCode = 0;
-            self.shouldExit = 1;
-        }
-        else {
-            IFPrint(error.localizedDescription);
+    if ([self hasApiKeyFlag]) {
+        NSString* apiKey = [self openCageApiKey];
+        if (!apiKey) {
+            IFPrint(@"API key not found.");
             self.exitCode = 1;
             self.shouldExit = 1;
+            return;
         }
-    }];
-    
-    [self.manager stopUpdatingLocation];
+        
+        OpenCageAPI *api = [[OpenCageAPI alloc] initWithApiKey:apiKey];
+        
+        [api sendGeoCodeRequestWithLatitude:newLocation.coordinate.latitude andLongitude:newLocation.coordinate.longitude completionHandler:^(NSString * _Nullable response, NSError * _Nullable error) {
+            if (response) {
+                IFPrint(response);
+                self.exitCode = 0;
+                self.shouldExit = 1;
+            }
+            else {
+                IFPrint(error.localizedDescription);
+                self.exitCode = 1;
+                self.shouldExit = 1;
+            }
+        }];
+    }
+    else {
+        self.exitCode = 0;
+        self.shouldExit = 1;
+    }
 }
 
 -(BOOL)isWifiEnabled {
@@ -115,6 +120,10 @@ void IFPrint (NSString *format, ...) {
     self.shouldExit = 1;
 }
 
+- (BOOL)hasApiKeyFlag {
+    NSArray<NSString *>* arguments = NSProcessInfo.processInfo.arguments;
+    NSUInteger apiKeyFlagIndex = [arguments indexOfObject: @"-k"];
+    return apiKeyFlagIndex != NSNotFound;
 }
 
 - (nullable NSString *)openCageApiKey {
