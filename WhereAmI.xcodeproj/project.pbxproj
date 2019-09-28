@@ -11,6 +11,7 @@
 		D42843E515D432D10088CC91 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D42843E415D432D00088CC91 /* main.m */; };
 		D430261C15D43AA4001E9462 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D430261B15D43AA3001E9462 /* CoreLocation.framework */; };
 		D430262015D43B96001E9462 /* LocationGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = D430261F15D43B96001E9462 /* LocationGetter.m */; };
+		D47895FA233FA10A00C7C522 /* OpenCageAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D47895F9233FA10A00C7C522 /* OpenCageAPI.m */; };
 		D4F7F53B15E4346F00B0916A /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4F7F53A15E4346F00B0916A /* CoreWLAN.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,8 @@
 		D430261E15D43B96001E9462 /* LocationGetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationGetter.h; sourceTree = "<group>"; };
 		D430261F15D43B96001E9462 /* LocationGetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationGetter.m; sourceTree = "<group>"; };
 		D430262115D46660001E9462 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
+		D47895F8233FA10A00C7C522 /* OpenCageAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCageAPI.h; sourceTree = "<group>"; };
+		D47895F9233FA10A00C7C522 /* OpenCageAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenCageAPI.m; sourceTree = "<group>"; };
 		D4F7F53A15E4346F00B0916A /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = /System/Library/Frameworks/CoreWLAN.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -74,6 +77,8 @@
 				D42843E415D432D00088CC91 /* main.m */,
 				D430261E15D43B96001E9462 /* LocationGetter.h */,
 				D430261F15D43B96001E9462 /* LocationGetter.m */,
+				D47895F8233FA10A00C7C522 /* OpenCageAPI.h */,
+				D47895F9233FA10A00C7C522 /* OpenCageAPI.m */,
 				D42843E615D432D10088CC91 /* Supporting Files */,
 			);
 			path = WhereAmI;
@@ -140,6 +145,7 @@
 			files = (
 				D42843E515D432D10088CC91 /* main.m in Sources */,
 				D430262015D43B96001E9462 /* LocationGetter.m in Sources */,
+				D47895FA233FA10A00C7C522 /* OpenCageAPI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
