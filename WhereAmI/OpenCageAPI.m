@@ -78,11 +78,16 @@ static NSURL* NSURLByAppendingQueryParameters(NSURL* URL, NSDictionary* queryPar
     NSURLSessionDataTask* task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error == nil) {
             // Success
+            NSError *parseError;
+            NSString *locationResult = [self parseJSONWithData:data error:&parseError];
             
-            NSString *responseString = [[NSString alloc] initWithFormat:@"URL Session Task Succeeded: HTTP %ld\n%@",
-                                        ((NSHTTPURLResponse *)response).statusCode,
-                                        [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-            completionHandler(responseString, nil);
+            if (locationResult && locationResult.length > 0) {
+                completionHandler(locationResult, nil);
+            }
+            else {
+                // Parse error
+                completionHandler(nil, parseError);
+            }
         }
         else {
             // Failure
@@ -91,6 +96,28 @@ static NSURL* NSURLByAppendingQueryParameters(NSURL* URL, NSDictionary* queryPar
     }];
     [task resume];
     [session finishTasksAndInvalidate];
+}
+
+- (nullable NSString *)parseJSONWithData:(NSData *)data error:(NSError * _Nullable *)error {
+    NSError *parseError;
+    NSDictionary *root = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+    NSArray *results = [root valueForKey: @"results"];
+    
+    if (!results || results.count == 0) {
+        // No results found
+        *error = [NSError errorWithDomain:@"JSONParseError" code:1 userInfo:@{NSLocalizedDescriptionKey: @"No results found."}];
+        return nil;
+    }
+    
+    NSDictionary *result = results[0];
+    NSString *formattedResult = [result valueForKey:@"formatted"];
+    
+    if (!formattedResult || [formattedResult length] == 0) {
+        *error = [NSError errorWithDomain:@"JSONParseError" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Empty result."}];
+        return nil;
+    }
+    
+    return formattedResult;
 }
 
 @end
