@@ -77,6 +77,25 @@ static NSURL* NSURLByAppendingQueryParameters(NSURL* URL, NSDictionary* queryPar
     /* Start a new Task */
     NSURLSessionDataTask* task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error == nil) {
+            // Check response
+            NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
+            if (statusCode == 402) {
+                NSError *quotaError = [NSError errorWithDomain:@"OpenCageAPIError"
+                                                     code:402
+                                                 userInfo:@{NSLocalizedDescriptionKey: @"OpenCage API quota exceeded."}
+                                  ];
+                completionHandler(nil, quotaError);
+                return;
+            }
+            else if (statusCode == 403) {
+                NSError *suspendedError = [NSError errorWithDomain:@"OpenCageAPIError"
+                                                     code:403
+                                                 userInfo:@{NSLocalizedDescriptionKey: @"OpenCage API key suspended."}
+                                  ];
+                completionHandler(nil, suspendedError);
+                return;
+            }
+            
             // Success
             NSError *parseError;
             NSString *locationResult = [self parseJSONWithData:data error:&parseError];
