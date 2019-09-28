@@ -10,6 +10,17 @@
 #import "OpenCageAPI.h"
 #import <CoreWLAN/CoreWLAN.h>
 
+// NSLog replacement from http://stackoverflow.com/a/3487392/1376063
+void IFPrint (NSString *format, ...) {
+    va_list args;
+    va_start(args, format);
+    
+    fputs([[[NSString alloc] initWithFormat:format arguments:args] UTF8String], stdout);
+    fputs("\n", stdout);
+    
+    va_end(args);
+}
+
 @implementation LocationGetter
 
 -(id)init {
@@ -104,15 +115,6 @@
     self.shouldExit = 1;
 }
 
-// NSLog replacement from http://stackoverflow.com/a/3487392/1376063
-void IFPrint (NSString *format, ...) {
-    va_list args;
-    va_start(args, format);
-    
-    fputs([[[NSString alloc] initWithFormat:format arguments:args] UTF8String], stdout);
-    fputs("\n", stdout);
-    
-    va_end(args);
 }
 
 - (nullable NSString *)openCageApiKey {
