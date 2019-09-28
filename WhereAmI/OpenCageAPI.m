@@ -98,7 +98,7 @@ static NSURL* NSURLByAppendingQueryParameters(NSURL* URL, NSDictionary* queryPar
             else if (statusCode != 200) {
                 NSError *unknownAPIError = [NSError errorWithDomain:@"OpenCageAPIError"
                                                               code:statusCode
-                                                           userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"OpenCage API error. Code %ld.", (long)statusCode]}
+                                                           userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"OpenCage API error. Code %ld. See https://opencagedata.com/api#codes for more information.", (long)statusCode]}
                                            ];
                 completionHandler(nil, unknownAPIError);
                 return;
