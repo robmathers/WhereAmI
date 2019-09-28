@@ -22,6 +22,7 @@ void IFPrint (NSString *format, ...) {
 }
 
 @implementation LocationGetter
+BOOL gotUpdates = false;
 
 -(id)init {
     self = [super init];
@@ -59,6 +60,8 @@ void IFPrint (NSString *format, ...) {
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     NSTimeInterval ageInSeconds = -[newLocation.timestamp timeIntervalSinceNow];
     if (ageInSeconds > 60.0) return;   // Ignore data more than a minute old
+    if (gotUpdates) return; // Ensure we only display one update
+    gotUpdates = true;
     [self.manager stopUpdatingLocation];
 
     IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
