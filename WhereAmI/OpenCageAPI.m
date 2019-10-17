@@ -69,6 +69,7 @@ static NSURL* NSURLByAppendingQueryParameters(NSURL* URL, NSDictionary* queryPar
     NSDictionary *URLParams = @{
                                 @"key": [self apiKey],
                                 @"q": [NSString stringWithFormat:@"%f,%f", latitude, longitude],
+                                @"no_annotations": @"1"
                                 };
     URL = NSURLByAppendingQueryParameters(URL, URLParams);
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:URL];
