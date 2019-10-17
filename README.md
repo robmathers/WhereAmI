@@ -1,7 +1,7 @@
 # WhereAmI
 A quick command line tool to get your geographic coordinates using the OS X [CoreLocation][] framework, and optionally get human-readable geolocation data (address, etc.) via the [OpenCage API][opencage].
 
-Download a zip with the latest version [here][download link].
+Download a zip with the latest version [here][download link]. As the app is unsigned, on newer versions of Mac OS, you will need to right-click (or control-click) the `zip` file to open it. See [Apple's Knowledge Base for more information][unsigned].
 
 ## Usage
 Open with Finder to execute, or in the terminal. If it can determine a location, it will output longitude, latitude, accuracy in meters and the time the location was found. WhereAmI tries to get a recent location, and will not display one if it is more than a minute old (to avoid inaccurate results from CoreLocation's cached data). If it cannot get location data, it will quit and print an error message.
@@ -39,12 +39,17 @@ Timestamp: 2019-09-28, 12:40:20 PM EDT
 This is provided on an as-is basis. I make no guarantees or warranties as to its accuracy, stability or compatibility. It should be compatible with Mac OS 10.7 and above. Feel free to do with it as you wish.
 
 ## Changelog
-### 1.02
+### 1.1.0
+- Added support for OpenCage API
+- Updated Xcode project for Xcode 10
+
+### 1.0.2
  - Fixed missing `@autoreleasepool`. Shouldn't be any practical changes, but it's good form.
 
-### 1.01
+### 1.0.1
 - WhereAmI will now check if Wi-Fi is not enabled and tell the user such if it can't get location data.
 
 [corelocation]: http://en.wikipedia.org/wiki/CoreLocation
 [opencage]: https://opencagedata.com/
-[download link]: https://github.com/robmathers/WhereAmI/releases/download/v1.02/whereami-1.02.zip
+[download link]: https://github.com/robmathers/WhereAmI/releases/download/v1.1.0/whereami-1.1.0.zip
+[unsigned]: https://support.apple.com/en-ca/guide/mac-help/mh40616/mac
