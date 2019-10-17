@@ -81,23 +81,23 @@ static NSURL* NSURLByAppendingQueryParameters(NSURL* URL, NSDictionary* queryPar
             NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
             if (statusCode == 402) {
                 NSError *quotaError = [NSError errorWithDomain:@"OpenCageAPIError"
-                                                     code:402
-                                                 userInfo:@{NSLocalizedDescriptionKey: @"OpenCage API quota exceeded."}
+                                                          code:402
+                                                      userInfo:@{NSLocalizedDescriptionKey: @"OpenCage API quota exceeded."}
                                   ];
                 completionHandler(nil, quotaError);
                 return;
             }
             else if (statusCode == 403) {
                 NSError *suspendedError = [NSError errorWithDomain:@"OpenCageAPIError"
-                                                     code:403
-                                                 userInfo:@{NSLocalizedDescriptionKey: @"OpenCage API key suspended."}
+                                                              code:403
+                                                          userInfo:@{NSLocalizedDescriptionKey: @"OpenCage API key suspended."}
                                   ];
                 completionHandler(nil, suspendedError);
                 return;
             }
             else if (statusCode != 200) {
                 NSError *unknownAPIError = [NSError errorWithDomain:@"OpenCageAPIError"
-                                                              code:statusCode
+                                                               code:statusCode
                                                            userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"OpenCage API error. Code %ld. See https://opencagedata.com/api#codes for more information.", (long)statusCode]}
                                            ];
                 completionHandler(nil, unknownAPIError);
